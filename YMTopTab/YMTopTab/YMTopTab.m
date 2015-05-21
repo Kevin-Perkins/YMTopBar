@@ -313,7 +313,11 @@
     int kSelected =  ceil(scrollView.contentOffset.x / scrollView.frame.size.width);
     kSelected = kSelected > (int)self.titleArray.count - 1 ? (int)self.titleArray.count - 1 : kSelected;
     kSelected = kSelected < 0 ? 0 :kSelected;
+    BOOL isChanged = (self.selected != kSelected);
     self.selected = kSelected;
+    if (isChanged && [self.delegate respondsToSelector:@selector(topTab:changeSwipeItem:)]) {
+        [self.delegate topTab:self changeSwipeItem:kSelected];
+    }
     scrollView.contentOffset = CGPointMake(kSelected *scrollView.frame.size.width, 0);
     
     UIButton *button = self.buttonsArray[self.selected];
